@@ -17,6 +17,7 @@ class PongClient:
     def __init__(self, host):
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
+            print("[CLIENTE] intentando conectar")
             self.client.connect((host, PORT))
             print(f"[CLIENTE] Conectado al servidor {host}:{PORT}")
         except Exception as e:
