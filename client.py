@@ -6,7 +6,7 @@ import struct  # Para manejar el tamaño de los datos enviados
 
 # Configuración del servidor
 HOST = '0.0.0.0'
-PORT = 16497
+PORT = 11578
 FPS = 60
 WIDTH, HEIGHT = 800, 400
 PADDLE_WIDTH, PADDLE_HEIGHT = 10, 60
@@ -123,5 +123,5 @@ class PongClient:
 
 
 if __name__ == "__main__":
-    client = PongClient("0.tcp.eu.ngrok.io")
+    client = PongClient("4.tcp.eu.ngrok.io")
     client.run()
