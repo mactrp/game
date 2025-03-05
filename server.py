@@ -6,7 +6,7 @@ import time  # Para pausas en el bucle del servidor
 
 # Configuración del servidor
 HOST = '0.0.0.0'
-PORT = 16497
+PORT = 11578
 FPS = 60
 WIDTH, HEIGHT = 800, 400
 PADDLE_WIDTH, PADDLE_HEIGHT = 10, 60
