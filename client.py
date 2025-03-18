@@ -87,5 +87,5 @@ class PongClient:
 
 
 if __name__ == "__main__":
-    client = PongClient("192.168.32.108")
+    client = PongClient("192.168.32.222")
     client.run()
