@@ -87,5 +87,10 @@ class PongClient:
 
 
 if __name__ == "__main__":
-    client = PongClient("192.168.32.222")
+    # Solicitamos al usuario la IP del servidor
+    server_ip = input("Introduce la IP del servidor: ")
+    
+    # Creamos una instancia del cliente
+    client = PongClient(server_ip)
+
     client.run()
