@@ -114,16 +114,28 @@ class PongGame:
     
 
     def draw(self):
-        """Dibuja los elementos en la pantalla."""
+        """Dibuja los elementos en la pantalla con detalles estéticos."""
+        # Fondo con bandas horizontales
         self.screen.fill(BACKGROUND_COLOR)  # Fondo oscuro
-        # Dibuja las palas
+        for i in range(0, HEIGHT, 40):  # Bandas horizontales
+            pygame.draw.rect(self.screen, (25, 25, 25), (0, i, WIDTH, 20))
+
+        # Línea central discontinua
+        for i in range(0, HEIGHT, 20):
+            if i % 40 == 0:
+                pygame.draw.line(self.screen, WHITE, (WIDTH // 2, i), (WIDTH // 2, i + 20), 2)
+
+        # Dibujar las palas
         pygame.draw.rect(self.screen, BLUE, (0, self.players[0], PADDLE_WIDTH, PADDLE_HEIGHT))
         pygame.draw.rect(self.screen, RED, (WIDTH - PADDLE_WIDTH, self.players[1], PADDLE_WIDTH, PADDLE_HEIGHT))
-        # Dibuja la pelota
-        pygame.draw.ellipse(self.screen, WHITE, (self.ball[0], self.ball[1], BALL_SIZE, BALL_SIZE))
-        pygame.draw.circle(self.screen, WHITE, (WIDTH // 2, HEIGHT // 2), 1)  # Línea central
 
-        # Muestra la puntuación
+        # Dibujar la pelota
+        pygame.draw.ellipse(self.screen, WHITE, (self.ball[0], self.ball[1], BALL_SIZE, BALL_SIZE))
+
+        # Dibujar un borde alrededor de la pantalla
+        pygame.draw.rect(self.screen, WHITE, (0, 0, WIDTH, HEIGHT), 5)
+
+        # Mostrar la puntuación
         font = pygame.font.Font(None, 36)
         score_text = font.render(f"{self.scores[0]} - {self.scores[1]}", True, WHITE)
         self.screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, 20))
@@ -189,11 +201,19 @@ class PongGame:
 
     def broadcast(self):
         """Envía los datos del juego a todos los clientes."""
-        data = pickle.dumps({'players': self.players, 'ball': self.ball, 'scores': self.scores})
+        data = pickle.dumps({
+            'players': self.players,
+            'ball': self.ball,
+            'scores': self.scores,
+            'background': BACKGROUND_COLOR,  # Color del fondo
+            'paddle_colors': [BLUE, RED],   # Colores de las paletas
+            'line_color': WHITE             # Color de las líneas
+        })
         for conn in self.connections:
             try:
                 conn.sendall(data)
-            except:
+            except Exception as e:
+                print(f"Error al enviar datos al cliente: {e}")
                 pass
 
     def reset_ball(self, scorer):
