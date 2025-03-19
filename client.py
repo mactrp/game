@@ -63,17 +63,28 @@ class PongClient:
         pygame.quit()
     
     def draw(self, game_state):
-        self.screen.fill((0, 0, 0))
-        
-        # Dibujar paletas y pelota
-        pygame.draw.rect(self.screen, (255, 255, 255), (10, game_state['players'][0], PADDLE_WIDTH, PADDLE_HEIGHT))
-        pygame.draw.rect(self.screen, (255, 255, 255), (WIDTH - 20, game_state['players'][1], PADDLE_WIDTH, PADDLE_HEIGHT))
-        pygame.draw.rect(self.screen, (255, 255, 255), (game_state['ball'][0], game_state['ball'][1], BALL_SIZE, BALL_SIZE))
+        """Dibuja los elementos del juego en la pantalla con detalles estéticos."""
+        # Fondo con bandas horizontales
+        self.screen.fill(BACKGROUND_COLOR)  # Fondo oscuro
+        for i in range(0, HEIGHT, 40):  # Bandas horizontales
+            pygame.draw.rect(self.screen, (25, 25, 25), (0, i, WIDTH, 20))
 
-        # Mostrar marcador
+        # Línea central discontinua
+        for i in range(0, HEIGHT, 20):
+            if i % 40 == 0:
+                pygame.draw.line(self.screen, WHITE, (WIDTH // 2, i), (WIDTH // 2, i + 20), 2)
+
+        # Dibujar las palas
+        pygame.draw.rect(self.screen, BLUE, (10, game_state['players'][0], PADDLE_WIDTH, PADDLE_HEIGHT))
+        pygame.draw.rect(self.screen, RED, (WIDTH - 20, game_state['players'][1], PADDLE_WIDTH, PADDLE_HEIGHT))
+
+        # Dibujar la pelota
+        pygame.draw.ellipse(self.screen, WHITE, (game_state['ball'][0], game_state['ball'][1], BALL_SIZE, BALL_SIZE))
+
+        # Mostrar el marcador
         font = pygame.font.Font(None, 36)
-        score_text = font.render(f"{game_state['scores'][0]} - {game_state['scores'][1]}", True, (255, 255, 255))
-        self.screen.blit(score_text, (WIDTH // 2 - 30, 20))  # Posición centrada en la parte superior
+        score_text = font.render(f"{game_state['scores'][0]} - {game_state['scores'][1]}", True, TEXT_COLOR)
+        self.screen.blit(score_text, (WIDTH // 2 - score_text.get_width() // 2, 20))  # Centramos el marcador
 
         pygame.display.flip()
 
@@ -88,8 +99,8 @@ class PongClient:
 
 if __name__ == "__main__":
     # Solicitamos al usuario la IP del servidor
-    server_ip = input("Introduce la IP del servidor: ")
-    
+    # server_ip = input("Introduce la IP del servidor: ")
+    server_ip = "192.168.32.113"
     # Creamos una instancia del clienteimport socket
 import threading
 import pygame
